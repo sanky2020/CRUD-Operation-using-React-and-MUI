@@ -35,6 +35,9 @@ function AddUser(props) {
   const [user, setUser] = useState(initialValue);
   const [singleData, setSingleData] = useState([])
   const { name, email, phone, address } = user;
+  const {getuserdata} = props;
+
+  console.log(props)
 
   //for modal logic
   const [open, setOpen] = useState(false);
@@ -59,6 +62,7 @@ useEffect(()=>{
         })
     }
     setShow(!show);
+    
   };
 
 
@@ -77,11 +81,14 @@ useEffect(()=>{
   const addUserDetails = async () => {
       if(singleData.id){
           await axios.put('https://6139330a1fcce10017e78a63.mockapi.io/users/'+singleData.id, singleData)
-          alert("Changes Updated Successfully")
+          alert("Changes Updated Successfully");
+          setSingleData([])
+          getuserdata();
       }
     else{
         await axios.post(`https://6139330a1fcce10017e78a63.mockapi.io/users`, user);
-        alert("User Added Successfully")
+        alert("User Added Successfully");
+        getuserdata();
     }
     
     setShow(!show);
