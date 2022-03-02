@@ -1,3 +1,11 @@
+useful link - 
+* passing additional data while redirecting to different route;
+https://levelup.gitconnected.com/how-to-pass-additional-data-while-redirecting-to-different-route-f7bf5f95d48c
+
+* calling parent component method from child;
+https://reactgo.com/react-call-parent-component-method/
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
