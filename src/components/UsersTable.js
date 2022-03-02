@@ -9,13 +9,18 @@ import {
   Grid,
   TablePagination,
   Button,
+  Snackbar,
+  IconButton,
+  
 } from "@mui/material";
 import React, { useEffect, useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core";
 import axios from "axios";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import CloseIcon from "@mui/icons-material/Close"
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddUser from "./AddUser";
+import { Link } from "react-router-dom";
 
 //use this command to install appropriate dependency => npm install @material-ui/core --save
 
@@ -28,10 +33,14 @@ const useStyles = makeStyles({
     maxWidth: 800,
   },
   tableHead: {
-    fontWeight: 800,
-    fontSize: 20,
+    
     backgroundImage: "linear-gradient(to bottom, #076093, #F3F8FB)",
-    border: "1px solid rgba(224, 224, 224, 1)"
+    border: "2px solid rgba(224, 224, 224, 1)",
+    "&.css-nc6t7a-MuiTableCell-root":{
+      fontWeight: 800,
+    fontSize: '1rem',
+    height: '2.5rem'
+    }
   },
   tableRow: {
     "&:nth-child(even)": {
@@ -40,34 +49,75 @@ const useStyles = makeStyles({
   },
   tableData: {
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  functionalities:{
-    display: "flex" , justifyContent:"space-evenly",
     
-    width:130,
-    height: 35
+    
+    cursor:"pointer",
+    height: 35,
+    border: "1px solid rgba(224, 224, 224, 0.8)",
+    "& .css-11lq3yg-MuiGrid-root":{
+      justifyContent: "center",
+      alignItems: "center",
+    }
   },
-  
+  border:{
+    border: "1px solid rgba(224, 224, 224, 0.8)",
+  },
+  functionalities: {
+    display: "flex",
+    justifyContent: "space-evenly",
+
+    width: 130,
+    height: 35,
+  },
 });
 
 function UsersTable() {
   let [users, setUsers] = useState([]);
 
+  // snackbar logic begins
+  var msg = "User Deleted Successfuly";
+  const [open, setOpen] = useState(false); 
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+    //snackbar logic ends
+
   const childFunc = useRef(null);
 
+  //axios call
+  const getuserdata = async ()=>{
+    let response = await axios
+      .get("http://6139330a1fcce10017e78a63.mockapi.io/users")
+      setUsers(response.data) 
+  }
+
   useEffect(() => {
-    axios
-      .get("https://6139330a1fcce10017e78a63.mockapi.io/users")
-      .then((response) => {
-        console.log(response.data);
-        setUsers(response.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    getuserdata();
   }, []);
+
   const classes = useStyles();
 
   const [page, setPage] = useState(0);
@@ -89,16 +139,26 @@ function UsersTable() {
     await axios.delete(
       "https://6139330a1fcce10017e78a63.mockapi.io/users/" + id
     );
-    alert("User Deleted Successfuly")
+    handleClick();
+    getuserdata();
   }
 
+  const showUserDetails = (id) =>{
+    console.log("user id: ", id )
+  }
   return (
-    <>
-      <AddUser childFunc={childFunc} />
+    <><Snackbar
+        open={open}
+        autoHideDuration={4000}
+        onClose={handleClose}
+        message={msg}
+        action={action}
+      />
+      <AddUser childFunc={childFunc} getuserdata={getuserdata}/>
       <TableContainer className={classes.tableContainer}>
         <Table className={classes.table} size="small" stickyHeader>
           <TableHead>
-            <TableRow >
+            <TableRow>
               <TableCell className={classes.tableHead} align="center">
                 Name
               </TableCell>
@@ -123,7 +183,9 @@ function UsersTable() {
                 return (
                   <TableRow key={item.id} className={classes.tableRow}>
                     {/* by using src="." it will pick the 1st letter of the text provided for its avatar */}
-                    <TableCell className={classes.tableData} align="center">
+                    
+                    <TableCell className={classes.tableData} align="center" onClick={()=>showUserDetails(item.id)}>
+                    <Link to={{pathname:`${item.name}`, state:`${item.id}`}}>
                       <Grid container>
                         <Grid item sm={4}>
                           <Avatar alt={item.name} src="." />
@@ -132,12 +194,14 @@ function UsersTable() {
                           {item.name}
                         </Grid>
                       </Grid>
+                      </Link> 
                     </TableCell>
-                    <TableCell align="center">{item.email}</TableCell>
-                    <TableCell align="center">{item.phone}</TableCell>
-                    <TableCell align="center">{item.address}</TableCell>
-                    <TableCell className={classes.functionalities}>
-                      <Button onClick={() => childFunc.current(item.id)} >
+                    
+                    <TableCell className={classes.border} align="center">{item.email}</TableCell>
+                    <TableCell className={classes.border} align="center">{item.phone}</TableCell>
+                    <TableCell className={classes.border} align="center">{item.address}</TableCell>
+                    <TableCell className={`${classes.functionalities} ${classes.border}`}>
+                      <Button onClick={() => childFunc.current(item.id)}>
                         <EditOutlinedIcon />
                       </Button>
                       <Button onClick={() => deleteFunc(item.id)}>
