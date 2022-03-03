@@ -1,0 +1,28 @@
+.solopage{
+    width: 100%;
+    height: 80vh;
+    background-image: linear-gradient(to right, #FEAC5E, #C779D0,#4bc0c8);
+    
+}
+.solopage h2,.solopage h3,.solopage h4,.solopage p{
+    width: 50%;
+    margin: 0 auto;
+}
+.solopage h2{
+    font-size: 2.5rem;
+    border: 3px dashed #FEAC5E;
+    padding: 2rem;
+}
+.solopage h3, .solopage p{
+    font-size: 2rem;
+    border: 3px dashed #C779D0;
+    padding: 2rem;
+}
+.solopage h4{
+    font-size: 1.5rem;
+    border: 3px dashed #4bc0c8;
+    padding: 2rem;
+}
+.home{
+    font-size: large;
+}
