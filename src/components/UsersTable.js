@@ -25,13 +25,16 @@ import { Link } from "react-router-dom";
 //use this command to install appropriate dependency => npm install @material-ui/core --save
 
 const useStyles = makeStyles({
-  table: {
-    minWidth: 500,
-  },
   tableContainer: {
     margin: "20px auto",
-    maxWidth: 800,
+    width: '75%',
+    border: "2px solid rgba(224, 224, 224, 1)",
   },
+  table: {
+    // width: '100%',
+    
+  },
+  
   tableHead: {
     
     backgroundImage: "linear-gradient(to bottom, #076093, #F3F8FB)",
@@ -49,13 +52,10 @@ const useStyles = makeStyles({
   },
   tableData: {
     display: "flex",
-    
-    
-    cursor:"pointer",
     height: 35,
     border: "1px solid rgba(224, 224, 224, 0.8)",
     "& .css-11lq3yg-MuiGrid-root":{
-      justifyContent: "center",
+      justifyContent: "space-between",
       alignItems: "center",
     }
   },
@@ -65,8 +65,6 @@ const useStyles = makeStyles({
   functionalities: {
     display: "flex",
     justifyContent: "space-evenly",
-
-    width: 130,
     height: 35,
   },
 });
@@ -185,21 +183,21 @@ function UsersTable() {
                     {/* by using src="." it will pick the 1st letter of the text provided for its avatar */}
                     
                     <TableCell className={classes.tableData} align="center" onClick={()=>showUserDetails(item.id)}>
-                    <Link to={{pathname:`${item.name}`, state:`${item.id}`}}>
+                    
                       <Grid container>
                         <Grid item sm={4}>
                           <Avatar alt={item.name} src="." />
                         </Grid>
                         <Grid item sm={8}>
-                          {item.name}
+                        <Link to={{pathname:`${item.name}`, state:`${item.id}`}} style={{textDecoration:"none"}}>{item.name}</Link>
                         </Grid>
                       </Grid>
-                      </Link> 
+                       
                     </TableCell>
                     
-                    <TableCell className={classes.border} align="center">{item.email}</TableCell>
-                    <TableCell className={classes.border} align="center">{item.phone}</TableCell>
-                    <TableCell className={classes.border} align="center">{item.address}</TableCell>
+                    <TableCell className={classes.border} align="center"><Link to={{pathname:`${item.name}`, state:`${item.id}`}} style={{textDecoration:"none"}}>{item.email}</Link></TableCell>
+                    <TableCell className={classes.border} align="center"><Link to={{pathname:`${item.name}`, state:`${item.id}`}} style={{textDecoration:"none"}}>{item.email}{item.phone}</Link></TableCell>
+                    <TableCell className={classes.border} align="center"><Link to={{pathname:`${item.name}`, state:`${item.id}`}} style={{textDecoration:"none"}}>{item.email}{item.address}</Link></TableCell>
                     <TableCell className={`${classes.functionalities} ${classes.border}`}>
                       <Button onClick={() => childFunc.current(item.id)}>
                         <EditOutlinedIcon />
