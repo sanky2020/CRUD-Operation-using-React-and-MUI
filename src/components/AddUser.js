@@ -88,6 +88,7 @@ useEffect(()=>{
     else{
         await axios.post(`https://6139330a1fcce10017e78a63.mockapi.io/users`, user);
         alert("User Added Successfully");
+        setUser([])
         getuserdata();
     }
     
