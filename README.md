@@ -1,3 +1,9 @@
+Screenshot
+![image](https://user-images.githubusercontent.com/69984129/159179848-68d3c973-fafa-45b7-8033-724a96ac44ab.png)
+![image](https://user-images.githubusercontent.com/69984129/159179882-7b5e88b8-f0b8-4cd6-80fc-35dfdac89bff.png)
+
+Clicking on any user's row will navigate to new page showing details of that specific user
+
 useful link - 
 * passing additional data while redirecting to different route;
 https://levelup.gitconnected.com/how-to-pass-additional-data-while-redirecting-to-different-route-f7bf5f95d48c
